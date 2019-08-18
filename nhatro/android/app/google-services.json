@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "920170476936",
+    "firebase_url": "https://thuetro-7003a.firebaseio.com",
+    "project_id": "thuetro-7003a",
+    "storage_bucket": "thuetro-7003a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920170476936:android:61764ab03e7cba40",
+        "android_client_info": {
+          "package_name": "com.example.nhatro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920170476936-bv7bk6agu91f1e9c7jb2kl64mghbc38t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nhatro",
+            "certificate_hash": "c7da1400b1f102651d18b49036317c2ddd1860a0"
+          }
+        },
+        {
+          "client_id": "920170476936-6j02lh7ss43f1n4d7rn1rs734m501dbs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-lh9rPhnbGBRLREiV3dISZTGWCPJhdHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920170476936-6j02lh7ss43f1n4d7rn1rs734m501dbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
