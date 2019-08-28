@@ -31,7 +31,7 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
     gia = new TextEditingController();
     sdt = new TextEditingController();
     viTri = new TextEditingController();
-
+  //abc
     moTa = new TextEditingController();
   }
 
@@ -178,26 +178,26 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          Phong phong = Phong(
-                              diaChi: diaChi.text,
-                              dienTich: dienTich.text,
-                              gia: gia.text,
-                              loaiNhaTro: loaiNha.text,
-                              moTa: moTa.text,
-                              sdt: sdt.text,
-                              sucChua: sucChua.text,
-                              uidOfHost: widget.userCurrent.userId,
-                              userNameOfHost: widget.userCurrent.userName,
-                              avatarOfHost: widget.userCurrent.avatar);
-                          await GhepTro().onGhepTro(phong).then((_) {
-                            setState(() {
-                              isLoading = false;
-                              Navigator.of(context).pop();
-                            });
-                          });
+                          // setState(() {
+                          //   isLoading = true;
+                          // });
+                          // Phong phong = Phong(
+                          //     diaChi: diaChi.text,
+                          //     dienTich: dienTich.text,
+                          //     gia: gia.text,
+                          //     loaiNhaTro: loaiNha.text,
+                          //     moTa: moTa.text,
+                          //     sdt: sdt.text,
+                          //     sucChua: sucChua.text,
+                          //     uidOfHost: widget.userCurrent.userId,
+                          //     userNameOfHost: widget.userCurrent.userName,
+                          //     avatarOfHost: widget.userCurrent.avatar);
+                          // await GhepTro().onGhepTro(phong).then((_) {
+                          //   setState(() {
+                          //     isLoading = false;
+                          //     Navigator.of(context).pop();
+                          //   });
+                          // });
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
