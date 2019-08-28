@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nhatro/home/ghep_tro_screen.dart';
-import 'package:nhatro/home/setting_screen.dart';
-import 'package:nhatro/home/thue_tro_screen.dart';
+import 'package:nhatro/home/ghep_tro/ghep_tro_screen.dart';
+import 'package:nhatro/home/cai_dat/setting_screen.dart';
+import 'package:nhatro/home/thue_tro/thue_tro_screen.dart';
 import 'package:nhatro/login/login_screen.dart';
+import 'package:nhatro/model/user.dart';
 import 'package:nhatro/services/authentication.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -162,6 +165,31 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  User userCurrent;
+  FirebaseUser firebaseUser;
+  Future isSignedIn() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    firebaseUser = await _auth.currentUser();
+    var document = Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid.toString());
+    document.get().then((value) {
+      userCurrent = User(
+        avatar: value.data["avatar"],
+        email: value.data["email"],
+        userId: firebaseUser.uid,
+        userName: value.data["userName"],
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    isSignedIn().then((_) {});
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,8 +202,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: <Widget>[
           isThueTro
-              ? Container(child: ThueTroScreen())
-              : isGhepTro ? Container(child: GhepTroScreen()) : SettingScreen(),
+              ? Container(
+                  child: ThueTroScreen(
+                  userCurrent: userCurrent,
+                ))
+              : isGhepTro
+                  ? Container(
+                      child: GhepTroScreen(
+                      userCurrent: userCurrent,
+                    ))
+                  : SettingScreen(
+                      userCurrent: userCurrent,
+                    ),
           // color: Colors.white,
 
           Container(

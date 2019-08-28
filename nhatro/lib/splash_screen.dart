@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:animator/animator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nhatro/home/home_screen.dart';
 import 'package:nhatro/login/login_screen.dart';
+import 'package:nhatro/services/authentication.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -18,38 +21,29 @@ class _SplashScreenState extends State<SplashScreen> {
     return Timer(_duration, navigationPage);
   }
 
+  FirebaseUser firebaseUser;
+  void isSignedIn() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    firebaseUser = await _auth.currentUser();
+  }
+
+  BaseAuth auth = Auth();
   Future navigationPage() async {
-    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // int isCameIntro = (sharedPreferences.getInt('isCameIntro') ?? 0);
-    // if (isCameIntro == 0) {
-    //   Navigator.of(context).pushAndRemoveUntil(
-    //       MaterialPageRoute(builder: (_) => IntroScreen()),
-    //       (Route<dynamic> route) => false);
-    //   isCameIntro = 1;
-    // } else if (_accessToken != null && _accessToken != "")
-    //   Navigator.of(context).pushAndRemoveUntil(
-    //       MaterialPageRoute(
-    //           builder: (_) => HomeScreen(
-    //                 accessToken: _accessToken,
-    //               )),
-    //       (Route<dynamic> route) => false);
-    // else
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => SignInScreen()),
-        (Route<dynamic> route) => false);
-    // await sharedPreferences.setInt('isCameIntro', isCameIntro);
+    firebaseUser == null
+        ? Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => SignInScreen()),
+            (Route<dynamic> route) => false)
+        : Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (_) => HomeScreen(
+                      baseAuth: auth,
+                    )),
+            (Route<dynamic> route) => false);
   }
 
   @override
   void initState() {
-    // LoginRegesTer().saveaccessToken().then((accessToken) {
-    //   GetUserByToken().getUserByToken(accessToken).then((user) {
-    //     if (user != null)
-    //       _accessToken = accessToken;
-    //     else
-    //       _accessToken = null;
-    //   });
-    // });
+    isSignedIn();
     startTime();
     super.initState();
   }

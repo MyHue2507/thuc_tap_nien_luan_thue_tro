@@ -66,7 +66,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Map<String, String> data = <String, String>{
         "email": email,
         "userId": userId,
-        "username": userName
+        "userName": userName,
+        "avatar": "http://shinobi-software.com/images/geek.png"
       };
       await documentReference.setData(data).whenComplete(() {
         print("Document Added");
