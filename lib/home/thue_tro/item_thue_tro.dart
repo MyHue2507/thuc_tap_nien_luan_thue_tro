@@ -184,7 +184,7 @@ class _ThueTroItemState extends State<ThueTroItem> {
                 SizedBox(
                   width: 10,
                 ),
-                Text('''${widget.phong.moTa ?? ""}''')
+                Text(widget.phong.moTa ?? " ")
               ],
             ),
           ),
