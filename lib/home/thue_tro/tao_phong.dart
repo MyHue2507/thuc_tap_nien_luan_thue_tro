@@ -22,6 +22,7 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
   Color colorWhite = Colors.white;
   Color colorB = Color.fromARGB(255, 0, 162, 224);
   bool isLoading = false;
+
   bool _validate = false;
   bool isSelected = false;
   GlobalKey<FormState> _key = new GlobalKey();
@@ -32,7 +33,6 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
     'Nhà hộp',
     'Nhà 2 tầng',
   ];
-
   @override
   void initState() {
     super.initState();
@@ -250,10 +250,10 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
                                     left: 5.0,
                                     right: 5.0,
                                     bottom: 5.0),
-                                // height: 50.0,
+                                height: 50.0,
                                 child: TextFormField(
-                                    keyboardType: TextInputType.multiline,
-                                    // validator: validateMota,
+                                    keyboardType: TextInputType.text,
+                                    validator: validateMota,
                                     maxLines: 5,
                                     controller: moTa,
                                     decoration: (InputDecoration(
@@ -287,6 +287,7 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
                         ),
                       ),
                     ),
+                    
                     Container(
                       padding: EdgeInsets.only(
                           top: 20, bottom: 0, left: 20, right: 20),
@@ -299,16 +300,17 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
                               isLoading = true;
                             });
                             Phong phong = Phong(
-                                diaChi: diaChi.text,
-                                dienTich: dienTich.text,
-                                gia: gia.text,
-                                loaiNhaTro: loaiNha.text,
-                                moTa: moTa.text,
-                                sdt: sdt.text,
-                                sucChua: sucChua.text,
-                                uidOfHost: widget.userCurrent.userId,
-                                userNameOfHost: widget.userCurrent.userName,
-                                avatarOfHost: widget.userCurrent.avatar);
+                              diaChi: diaChi.text,
+                              dienTich: dienTich.text,
+                              gia: gia.text,
+                              searchKey: gia.text.substring(0,1),
+                              loaiNhaTro: loaiNha.text,
+                              moTa: moTa.text,
+                              sdt: sdt.text,
+                              sucChua: sucChua.text,
+                              uidOfHost: widget.userCurrent.userId,
+                              userNameOfHost: widget.userCurrent.userName,
+                              avatarOfHost: widget.userCurrent.avatar);
                             await Addphong().onAddphong(phong).then((_) {
                               setState(() {
                                 isLoading = false;
@@ -331,6 +333,7 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
                         ),
                       ),
                     ),
+                    
                   ],
                 ),
               ),
@@ -359,7 +362,6 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
       ),
     );
   }
-
   String validateDiachi(String value) {
     if (value.length == 0) {
       return "Nhập vào địa chỉ";
@@ -405,8 +407,6 @@ class CreateRoomScreenState extends State<CreateRoomScreen> {
     RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
       return "Nhập vào diện tích";
-    } else if (value.length < 10) {
-      return "Diện tích tối thiểu là 10m2";
     } else if (!regExp.hasMatch(value)) {
       return "Diện tích phải là chữ số";
     }

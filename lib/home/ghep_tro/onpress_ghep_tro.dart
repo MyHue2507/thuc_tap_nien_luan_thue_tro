@@ -11,32 +11,30 @@ class GhepTro {
     DocumentReference documentReferenceListPhongOfUser = Firestore.instance
         .document("users/${firebaseUser.uid}/listPhongGhep/$phongId");
     Map<String, String> data = <String, String>{
+      "ten":phong.ten,
       "userNameOfHost": phong.userNameOfHost,
       "uidOfHost": phong.uidOfHost,
       "avatarOfHost": phong.avatarOfHost,
       "phongId": phongId,
-      "image": phong.image,
-      "loaiNhaTro": phong.loaiNhaTro,
+      "gioiTinh": phong.gioiTinh,
       "moTa": phong.moTa,
-      "sucChua": phong.sucChua.toString(),
       "gia": phong.gia.toString(),
-      "dienTich": phong.dienTich,
+      "searchKey":phong.gioiTinh.substring(0,1),
       "diaChi": phong.diaChi,
       "sdt": phong.sdt
     };
     DocumentReference documentReferenceAllListPhong =
         Firestore.instance.document("listPhongGhep/$phongId");
     Map<String, String> data2 = <String, String>{
+      "ten":phong.ten,
       "userNameOfHost": phong.userNameOfHost,
       "uidOfHost": phong.uidOfHost,
       "avatarOfHost": phong.avatarOfHost,
       "phongId": phongId,
-      "image": phong.image,
-      "loaiNhaTro": phong.loaiNhaTro,
       "moTa": phong.moTa,
-      "sucChua": phong.sucChua.toString(),
+      "gioiTinh": phong.gioiTinh,
       "gia": phong.gia.toString(),
-      "dienTich": phong.dienTich,
+      "searchKey": phong.gioiTinh.substring(0,1),
       "diaChi": phong.diaChi,
       "sdt": phong.sdt
     };

@@ -26,17 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
     Color.fromARGB(200, 45, 80, 150),
     Color.fromARGB(200, 45, 110, 180),
   ];
-  // Color.fromARGB(200, 0, 203, 230),
-  // Color.fromARGB(200, 0, 180, 204),
-  // Color.fromARGB(200, 0, 158, 179),
-  // Color.fromARGB(200, 0, 158, 179),
-  // Color.fromARGB(200, 0, 135, 153),
-  // Color.fromARGB(200, 0, 135, 153),
-  // Color.fromARGB(200, 0, 135, 153),
-  // Color.fromARGB(200, 0, 158, 179),
-  // Color.fromARGB(200, 0, 158, 179),
-  // Color.fromARGB(200, 0, 180, 204),
-  // Color.fromARGB(200, 0, 203, 230),
+ 
 
   BaseAuth auth = Auth();
   String _errorMessage;
@@ -60,7 +50,7 @@ class _SignInScreenState extends State<SignInScreen> {
         setState(() {
           _isLoading = false;
           _email = "";
-          _errorMessage = 'Username does not exist';
+          _errorMessage = 'Tên đăng nhập không tồn tại';
         });
       } else {
         var email = snapshot['email'];
@@ -100,7 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   padding: EdgeInsets.only(top: 30),
                   alignment: Alignment.topCenter,
                   child: Text(
-                    'Sign In',
+                    'Đăng nhập',
                     style: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 16,
@@ -149,7 +139,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               'images/username_icon.png',
                               height: 19.44,
                             ),
-                            hintText: 'User Name',
+                            hintText: 'Tên đăng nhập',
                             hintStyle: TextStyle(
                                 fontWeight: FontWeight.w200, color: _color)),
                         onChanged: (value) {
@@ -168,7 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               'images/password_icon.png',
                               width: 17.61,
                             ),
-                            hintText: 'Password',
+                            hintText: 'Mật khẩu',
                             hintStyle: TextStyle(
                                 fontWeight: FontWeight.w200, color: _color)),
                         onChanged: (value) {
@@ -198,7 +188,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           _password == null ||
                           _password == "") {
                         setState(() {
-                          _errorMessage = "PassWord or Email not is empty";
+                          _errorMessage = "Không được để trống";
                         });
                       } else {
                         setState(() {
@@ -238,7 +228,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           borderRadius: BorderRadius.circular(2)),
                       child: Center(
                           child: Text(
-                        'Sign In',
+                        'Đăng nhập',
                         style: TextStyle(color: _color),
                       )),
                     ),
@@ -251,7 +241,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Dont\'t have an account?',
+                        'Bạn chưa có tài khoản?',
                         style: TextStyle(
                             fontWeight: FontWeight.w200,
                             color: _color,
@@ -267,7 +257,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           decoration: BoxDecoration(
                               border:
                                   Border(bottom: BorderSide(color: _color))),
-                          child: Text('Sign up',
+                          child: Text('Đăng kí',
                               style: TextStyle(
                                   fontWeight: FontWeight.w300,
                                   color: _color,

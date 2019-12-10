@@ -42,7 +42,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   onTap: () {
                     Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => MyAccountScreen()));
+                    .push(MaterialPageRoute(builder: (_) => MyAccountScreen(userCurrent: widget.userCurrent,)));
                   },
                   title: Text(
                     'Tài khoản của tôi',
@@ -126,37 +126,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: _colorApp),
-                margin: EdgeInsets.only(
-                  top: 15,
-                  left: 10.0,
-                  right: 10.0,
-                ),
-                height: 55.0,
-                child: ListTile(
-                  contentPadding: EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                  ),
-                  onTap: () {},
-                  title: Text(
-                    'Hỗ trợ',
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                  leading: Icon(
-                    Icons.live_help,
-                    color: Colors.white,
-                  ),
-                  trailing: Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              
             ],
           ),
         ),

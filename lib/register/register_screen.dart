@@ -80,9 +80,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title: new Text("Verify your account"),
+            title: new Text("Xác thực tài khoản"),
             content:
-                new Text("Link to verify account has been sent to your email"),
+                new Text("Link xác thực đã gửi đến email"),
             actions: <Widget>[
               new FlatButton(
                 child: new Text("Dismiss"),
@@ -112,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: EdgeInsets.only(top: 30),
               alignment: Alignment.topCenter,
               child: Text(
-                'Sign Up',
+                'Đăng kí',
                 style: TextStyle(
                     fontWeight: FontWeight.w300, fontSize: 16, color: _color),
               ),
@@ -159,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           'images/username_icon.png',
                           height: 19.44,
                         ),
-                        hintText: 'User Name',
+                        hintText: 'Tên đăng nhập',
                         hintStyle: TextStyle(
                             fontWeight: FontWeight.w200, color: _color)),
                     onChanged: (value) {
@@ -207,7 +207,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           'images/password_icon.png',
                           width: 17.61,
                         ),
-                        hintText: 'Password',
+                        hintText: 'Mật khẩu',
                         hintStyle: TextStyle(
                             fontWeight: FontWeight.w200, color: _color)),
                     // validator: (value) =>
@@ -286,7 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(2)),
                   child: Center(
                       child: Text(
-                    'Sign Up',
+                    'Đăng kí',
                     style: TextStyle(color: _color),
                   )),
                 ),
@@ -299,7 +299,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Already have an account?',
+                    'Bạn chưa có tài khoản?',
                     style: TextStyle(
                         fontWeight: FontWeight.w200,
                         color: _color,
@@ -314,7 +314,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       margin: EdgeInsets.only(left: 5, right: 5),
                       decoration: BoxDecoration(
                           border: Border(bottom: BorderSide(color: _color))),
-                      child: Text('Sign In',
+                      child: Text('Đăng kí',
                           style: TextStyle(
                               fontWeight: FontWeight.w300,
                               color: _color,

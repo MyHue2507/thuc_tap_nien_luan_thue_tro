@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nhatro/model/user.dart';
 
 class MyAccountScreen extends StatefulWidget {
+  User userCurrent ;
+  MyAccountScreen({Key key,this.userCurrent}) : super(key: key);
   @override
   MyAccountScreenState createState() => MyAccountScreenState();
 }
@@ -8,7 +11,7 @@ class MyAccountScreen extends StatefulWidget {
 class MyAccountScreenState extends State<MyAccountScreen> {
   Color _colorWhite = Colors.white;
   Color _colorApp = Color.fromARGB(255, 45, 53, 110);
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +52,7 @@ class MyAccountScreenState extends State<MyAccountScreen> {
                     Center(
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
-                            'https://www.kairoscanada.org/wp-content/uploads/2017/01/mountain-300x225.jpeg'),
+                            widget.userCurrent.avatar??""),
                         radius: 40,
                       ),
                     ),
@@ -66,7 +69,7 @@ class MyAccountScreenState extends State<MyAccountScreen> {
                       child: Container(
                         padding: EdgeInsets.only(top: 15, left: 10),
                         child: Text(
-                          'Tên người dùng',
+                          widget.userCurrent.userName??"",
                           style: TextStyle(fontSize: 15, color: Colors.black45),
                         ),
                       ),
@@ -83,7 +86,7 @@ class MyAccountScreenState extends State<MyAccountScreen> {
                       child: Container(
                         padding: EdgeInsets.only(top: 15, left: 10),
                         child: Text(
-                          'Họ',
+                          widget.userCurrent.email??"",
                           style: TextStyle(fontSize: 15, color: Colors.black45),
                         ),
                       ),

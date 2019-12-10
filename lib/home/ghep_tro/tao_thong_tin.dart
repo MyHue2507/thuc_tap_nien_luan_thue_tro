@@ -22,6 +22,7 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
   Color colorWhite = Colors.white;
   Color colorB = Color.fromARGB(255, 0, 162, 224);
 
+  
   bool isLoading = false;
   bool _validate = false;
   bool isSelected = false;
@@ -52,7 +53,6 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
     gia.dispose();
     sdt.dispose();
     viTri.dispose();
-
     moTa.dispose();
   }
 
@@ -116,37 +116,60 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
                                     right: 5.0,
                                     bottom: 5.0),
                                 height: 50.0,
-                                width: MediaQuery.of(context).size.width,
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    value: _defaultGioitinh,
-                                    onChanged: (String newValueSelected) {
-                                      setState(() {
-                                        _defaultGioitinh = newValueSelected;
-                                        setState(() {
-                                          isSelected = true;
-                                        });
-                                      });
-                                    },
-                                    items: listGioitinh
-                                        .map((String dropDownListItem) {
-                                      return DropdownMenuItem<String>(
-                                        value: dropDownListItem,
-                                        child: Container(
-                                          margin: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            dropDownListItem,
-                                            style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
+                                child: TextFormField(
+                                    controller: gioiTinh,
+                                    keyboardType: TextInputType.text,
+                                    validator: validateTen,
+                                    decoration: (InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Giới tính',
+                                      hintStyle: TextStyle(fontSize: 15.0),
+                                      contentPadding:
+                                          EdgeInsets.only(top: 15, left: 10),
+                                    ))),
                               ),
+                              // Container(
+                              //   decoration: BoxDecoration(
+                              //       border: Border.all(color: Colors.white),
+                              //       borderRadius: BorderRadius.circular(10.0),
+                              //       color: Colors.grey[200]),
+                              //   margin: EdgeInsets.only(
+                              //       top: 20,
+                              //       left: 5.0,
+                              //       right: 5.0,
+                              //       bottom: 5.0),
+                              //   height: 50.0,
+                              //   width: MediaQuery.of(context).size.width,
+                              //   child: DropdownButtonHideUnderline(
+                              //     child: DropdownButton<String>(
+                              //       value: _defaultGioitinh,
+                              //       onChanged: (String newValueSelected) {
+                              //         setState(() {
+                              //           _defaultGioitinh = newValueSelected;
+                              //           setState(() {
+                              //             isSelected = true;
+                              //           });
+                              //         });
+                              //       },
+                              //       items: listGioitinh
+                              //           .map((String dropDownListItem) {
+                              //         return DropdownMenuItem<String>(
+                              //           value: dropDownListItem,
+                              //           child: Container(
+                              //             margin: EdgeInsets.only(left: 10),
+                              //             child: Text(
+                              //               dropDownListItem,
+                              //               style: TextStyle(
+                              //                 color: Colors.black54,
+                              //                 fontSize: 15,
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         );
+                              //       }).toList(),
+                              //     ),
+                              //   ),
+                              // ),
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.white),
@@ -225,9 +248,11 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
                                     left: 5.0,
                                     right: 5.0,
                                     bottom: 5.0),
-                                child: TextField(
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 5,
+                                    height: 50,
+                                child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    validator: validateMota,
+                                    // maxLines: 1,
                                     controller: moTa,
                                     decoration: (InputDecoration(
                                       border: InputBorder.none,
@@ -250,27 +275,28 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
                         onTap: () async {
                           if (_key.currentState.validate()) {
                             _key.currentState.save();
+                          
+                          setState(() {
+                            isLoading = true;
+                          });
+                          Phong phong = Phong(
+                            searchKey: gioiTinh.text.substring(0,1),
+                              diaChi: viTri.text,
+                              gioiTinh: gioiTinh.text,
+                              ten: ten.text,
+                              gia: gia.text,
+                              moTa: moTa.text,
+                              sdt: sdt.text,
+                              uidOfHost: widget.userCurrent.userId,
+                              userNameOfHost: widget.userCurrent.userName,
+                              avatarOfHost: widget.userCurrent.avatar);
+                          await GhepTro().onGhepTro(phong).then((_) {
+                            setState(() {
+                              isLoading = false;
+                              Navigator.of(context).pop();
+                            });
+                          });
                           }
-                          // setState(() {
-                          //   isLoading = true;
-                          // });
-                          // Phong phong = Phong(
-                          //     diaChi: diaChi.text,
-                          //     dienTich: dienTich.text,
-                          //     gia: gia.text,
-                          //     loaiNhaTro: loaiNha.text,
-                          //     moTa: moTa.text,
-                          //     sdt: sdt.text,
-                          //     sucChua: sucChua.text,
-                          //     uidOfHost: widget.userCurrent.userId,
-                          //     userNameOfHost: widget.userCurrent.userName,
-                          //     avatarOfHost: widget.userCurrent.avatar);
-                          // await GhepTro().onGhepTro(phong).then((_) {
-                          //   setState(() {
-                          //     isLoading = false;
-                          //     Navigator.of(context).pop();
-                          //   });
-                          // });
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -314,10 +340,15 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
       ),
     );
   }
-
   String validateVitri(String value) {
     if (value.length == 0) {
       return "Nhập vào vị trí";
+    }
+    return null;
+  }
+  String validateGioiTinh(String value) {
+    if (value.length == 0) {
+      return "Nhập vào giới tính (Nam/Nữ/Khác)";
     }
     return null;
   }
@@ -343,13 +374,10 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
   }
 
   String validateTen(String value) {
-    String patttern = r'(^[a-zA-Z]*$)';
-    RegExp regExp = new RegExp(patttern);
+   
     if (value.length == 0) {
       return "Nhập vào tên";
-    } else if (!regExp.hasMatch(value)) {
-      return "Tên phải là chữ cái";
-    }
+    } 
     return null;
   }
 
@@ -366,3 +394,4 @@ class CreateInfoScreenState extends State<CreateInfoScreen> {
     return null;
   }
 }
+

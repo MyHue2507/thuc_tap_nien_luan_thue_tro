@@ -82,8 +82,6 @@ class UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       height: 50.0,
                       child: TextField(
                           controller: username,
-                        
-                     
                           decoration: (InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Tên người dùng',
@@ -91,24 +89,7 @@ class UpdateInfoScreenState extends State<UpdateInfoScreen> {
                             contentPadding: EdgeInsets.only(top: 15, left: 10),
                           ))),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.grey[200]),
-                      margin: EdgeInsets.only(
-                          top: 10, left: 5.0, right: 5.0, bottom: 5.0),
-                      height: 50.0,
-                      child: TextField(
-                          controller: ho,
-                   
-                          decoration: (InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Họ',
-                            hintStyle: TextStyle(fontSize: 15.0),
-                            contentPadding: EdgeInsets.only(top: 15, left: 10),
-                          ))),
-                    ),
+                    
                     Container(
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),

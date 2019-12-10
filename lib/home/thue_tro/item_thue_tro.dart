@@ -71,14 +71,13 @@ class _ThueTroItemState extends State<ThueTroItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only(bottom: 70,top: 10,left: 10,right: 10),
       color: Colors.white,
       child: Column(
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(top: 10, left: 10),
-            // color: Colors.grey,
-            // height: 50,
+            
             child: Row(
               children: <Widget>[
                 CircleAvatar(
@@ -96,12 +95,14 @@ class _ThueTroItemState extends State<ThueTroItem> {
           Container(
             // color: Colors.blue,
             padding: EdgeInsets.all(10),
-            child: Image.asset(
-              widget.phong.image ?? " ",
-              fit: BoxFit.fill,
+            child: Image(
+              // fit: BoxFit.fill,
               width: double.infinity,
-              height:widget.phong.image== null ? 0 : 200.0,
-            ),
+              height:widget.phong.image== null ? 0 : 250.0,
+                  image:
+                      NetworkImage(widget.phong.image ?? ""),
+                  // radius: 100,
+                ),
           ),
           Container(
             padding: EdgeInsets.only(left: 10, bottom: 5, right: 10),
@@ -120,17 +121,15 @@ class _ThueTroItemState extends State<ThueTroItem> {
                 ),
                 Row(
                   children: <Widget>[
-                    Icon(
-                      Icons.attach_money,
-                      color: Colors.red,
-                    ),
+                    
                     Text(
-                      "${widget.phong.gia} / 1 tháng",
+                      "${widget.phong.gia} VNĐ / 1 tháng",
                       style: TextStyle(
                           color: Colors.red,
                           fontSize: 15,
                           fontWeight: FontWeight.w500),
                     ),
+
                   ],
                 ),
               ],
@@ -184,7 +183,7 @@ class _ThueTroItemState extends State<ThueTroItem> {
                 SizedBox(
                   width: 10,
                 ),
-                Text(widget.phong.moTa ?? " ")
+                Text('''${widget.phong.moTa ?? ""}''')
               ],
             ),
           ),
@@ -197,7 +196,12 @@ class _ThueTroItemState extends State<ThueTroItem> {
                 SizedBox(
                   width: 10,
                 ),
-                Text(widget.phong.sdt ?? " ")
+                Text(widget.phong.sdt ?? " "),
+                SizedBox(
+                  width: 150,
+                ),
+                Text('8.1'),
+                Icon(Icons.star,color: Colors.yellow,)
               ],
             ),
           ),

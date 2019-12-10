@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nhatro/home/ghep_tro/detail_user.dart';
+import 'package:nhatro/home/ghep_tro/item_ghep_tro.dart';
+import 'package:nhatro/services/search_gender.dart';
 import 'package:nhatro/home/ghep_tro/tao_thong_tin.dart';
+import 'package:nhatro/home/thue_tro/item_thue_tro.dart';
+import 'package:nhatro/model/phong.dart';
 import 'package:nhatro/model/user.dart';
-import 'package:nhatro/services/call.dart';
-import 'package:nhatro/services/service.dart';
 
 class GhepTroScreen extends StatefulWidget {
   User userCurrent;
@@ -15,208 +18,174 @@ class GhepTroScreen extends StatefulWidget {
 class _GhepTroScreenState extends State<GhepTroScreen> {
   Color colorRed = Colors.redAccent;
   Color _colorApp = Color.fromARGB(255, 45, 53, 110);
-  final CallsAndMessagesService _service = locator<CallsAndMessagesService>();
+
+  TextEditingController searchController;
+  var queryResultSet = [];
+  var tempSearchStore = [];
+  @override
+  void initState() {
+    searchController = TextEditingController();
+    super.initState();
+  }
+
+  initiateSearch(value) {
+    if (value.length == 0) {
+      setState(() {
+        queryResultSet = [];
+        tempSearchStore = [];
+      });
+    }
+
+    var firstValue = value.substring(0, 1).toUpperCase() + value.substring(1);
+
+    if (queryResultSet.length == 0 && value.length == 1) {
+      SearchService().searchByName(value).then((QuerySnapshot docs) {
+        for (int i = 0; i < docs.documents.length; ++i) {
+          queryResultSet.add(docs.documents[i].data);
+        }
+      });
+    } else {
+      tempSearchStore = [];
+      queryResultSet.forEach((element) {
+        if (element['gioiTinh'].startsWith(firstValue)) {
+          setState(() {
+            tempSearchStore.add(element);
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        ListView(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  border: BorderDirectional(
-                bottom: BorderSide(
-                  color: Colors.grey,
-                ),
-              )),
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: RaisedButton(
-                color: Colors.grey[400],
-                child: Text('Đăng thông tin ghép trọ'),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => CreateInfoScreen(
-                            userCurrent: widget.userCurrent,
-                          )));
-                },
-              ),
+      backgroundColor: Colors.grey[300],
+      body: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              onChanged: (val) {
+                initiateSearch(val);
+              },
+              controller: searchController,
+              decoration: InputDecoration(
+                  prefixIcon: IconButton(
+                    color: Colors.black,
+                    icon: Icon(Icons.search),
+                    iconSize: 20.0,
+                    onPressed: () {},
+                  ),
+                  contentPadding: EdgeInsets.only(left: 25.0),
+                  hintText: 'Tìm bởi giới tính',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4.0))),
             ),
-            Container(
-              decoration: BoxDecoration(
-                  border: BorderDirectional(
-                bottom: BorderSide(
-                  color: Colors.grey,
-                ),
-              )),
-              // padding: EdgeInsets.all(10),
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => DetailUserScreen()));
-                },
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://www.kairoscanada.org/wp-content/uploads/2017/01/mountain-300x225.jpeg'),
-                          radius: 50,
-                        ),
-                        Container(
-                            child: RaisedButton(
-                          color: _colorApp,
-                          child: Text(
-                            'Liên hệ',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            dialogButton(context);
-                          },
-                        )),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                child: Text(
-                                  'Name,',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: colorRed,
-                                      fontSize: 16),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(5),
-                                child: Text('Nam'),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            child: Text('Mức giá: '),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                            child: Text(
-                              '500000đ-1000000đ',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            child: Text('Vị trí: '),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                            child: Text(
-                              '143 Phan Bội Châu, tp.Huế',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            child: Text('Số điện thoại: '),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                            child: Text(
-                              '0123456789',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            child: Text('Mô tả: '),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                            child: Text(
-                              'Tự quản',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                border: BorderDirectional(
+              bottom: BorderSide(
+                color: Colors.grey,
               ),
+            )),
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.fromLTRB(10, 70, 10, 0),
+            child: RaisedButton(
+              color: Colors.grey[400],
+              child: Text('Đăng thông tin ghép trọ'),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => CreateInfoScreen(
+                          userCurrent: widget.userCurrent,
+                        )));
+              },
             ),
-            
-          ],
-        ),
-      ],
-    ));
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 120),
+            child: StreamBuilder<QuerySnapshot>(
+              stream:
+                  Firestore.instance.collection('listPhongGhep').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(_colorApp),
+                  ));
+                } else {
+                  return searchController.text != ""
+                      ? Container(
+                          child: ListView(
+                              children: tempSearchStore.map((element) {
+                            return buildResultCard(element);
+                          }).toList()),
+                        )
+                      : Container(
+                          margin: EdgeInsets.only(bottom: 60),
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return GhepTroItem(
+                                phong: Phong(
+                                    ten: snapshot.data.documents[index]['ten'],
+                                    diaChi: snapshot.data.documents[index]
+                                        ['diaChi'],
+                                    gioiTinh: snapshot.data.documents[index]
+                                        ['gioiTinh'],
+                                    dienTich: snapshot.data.documents[index]
+                                        ['dienTich'],
+                                    gia: snapshot.data.documents[index]['gia'],
+                                    loaiNhaTro: snapshot.data.documents[index]
+                                        ['loaiNhaTro'],
+                                    moTa: snapshot.data.documents[index]
+                                        ['moTa'],
+                                    sdt: snapshot.data.documents[index]['sdt'],
+                                    sucChua: snapshot.data.documents[index]
+                                        ['sucChua'],
+                                    uidOfHost: snapshot.data.documents[index]
+                                        ['uidOfHost'],
+                                    userNameOfHost: snapshot.data
+                                        .documents[index]['userNameOfHost'],
+                                    avatarOfHost: snapshot.data.documents[index]
+                                        ['avatarOfHost'],
+                                    image: snapshot.data.documents[index]
+                                        ['image'],
+                                    rating: snapshot.data.documents[index]
+                                        ['rating']),
+                              );
+                            },
+                            itemCount: snapshot.data.documents.length,
+                          ),
+                        );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
- 
-
-  Future<bool> dialogButton(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            titlePadding: EdgeInsets.all(1),
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0)),
-            contentPadding: EdgeInsets.all(4),
-            title: ListTile(
-                onTap: () {},
-                title: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                      height: 30,
-                      child: Text('Liên hệ'),
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.bottomLeft,
-                            child: FlatButton(
-                              child: Text(
-                                'Gọi',
-                                style: TextStyle(color: _colorApp),
-                              ),
-                              onPressed: () {
-                                _service.call("0123456788");
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ),
-                          Text('|'),
-                          Container(
-                            child: FlatButton(
-                              child: Text(
-                                'Nhắn tin',
-                                style: TextStyle(color: _colorApp),
-                              ),
-                              onPressed: () {
-                                _service.sendSms("0123456789");
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                        ]),
-                  ],
-                )),
-          );
-        });
+  Widget buildResultCard(data) {
+    return GhepTroItem(
+      phong: Phong(
+          ten: data['ten'],
+          gioiTinh: data['gioiTinh'],
+          diaChi: data['diaChi'],
+          dienTich: data['dienTich'],
+          gia: data['gia'],
+          loaiNhaTro: data['loaiNhaTro'],
+          moTa: data['moTa'],
+          sdt: data['sdt'],
+          sucChua: data['sucChua'],
+          uidOfHost: data['uidOfHost'],
+          userNameOfHost: data['userNameOfHost'],
+          avatarOfHost: data['avatarOfHost'],
+          image: data['image'],
+          rating: data['rating']),
+    );
   }
 }

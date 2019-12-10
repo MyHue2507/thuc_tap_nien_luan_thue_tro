@@ -22,7 +22,8 @@ class Addphong {
       "gia": phong.gia.toString(),
       "dienTich": phong.dienTich,
       "diaChi": phong.diaChi,
-      "sdt": phong.sdt
+      "sdt": phong.sdt,
+      "rating":phong.rating
     };
     DocumentReference documentReferenceAllListPhong =
         Firestore.instance.document("listPhongChoThue/$phongId");
@@ -36,9 +37,11 @@ class Addphong {
       "moTa": phong.moTa,
       "sucChua": phong.sucChua.toString(),
       "gia": phong.gia.toString(),
+      "searchKey": phong.gia.toString().substring(0,1),
       "dienTich": phong.dienTich,
       "diaChi": phong.diaChi,
-      "sdt": phong.sdt
+      "sdt": phong.sdt,
+      "rating":phong.rating
     };
     await documentReferenceListPhongOfUser.setData(data).whenComplete(() {
       print("Document Added");

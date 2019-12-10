@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nhatro/services/authentication.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Color _colorWhite = Colors.white;
   Color _colorApp = Color.fromARGB(255, 45, 53, 110);
   GlobalKey<FormState> _key = new GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController password;
   TextEditingController newPassword;
   TextEditingController confirmPassword;
@@ -16,17 +19,19 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool obscureText1 = true;
   bool obscureText2 = true;
   bool obscureText3 = true;
-
+  BaseAuth auth = Auth();
   void _toggle1() {
     setState(() {
       obscureText1 = !obscureText1;
     });
   }
+
   void _toggle2() {
     setState(() {
       obscureText2 = !obscureText2;
     });
   }
+
   void _toggle3() {
     setState(() {
       obscureText3 = !obscureText3;
@@ -52,6 +57,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: _colorApp,
@@ -146,8 +152,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               border: InputBorder.none,
                               hintText: 'Nhập mật khẩu mới',
                               hintStyle: TextStyle(fontSize: 15.0),
-                              contentPadding:
-                                  EdgeInsets.only(top: 5, left: 10),
+                              contentPadding: EdgeInsets.only(top: 5, left: 10),
                             ))),
                       ),
                       Container(
@@ -177,7 +182,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               border: InputBorder.none,
                               hintText: 'Xác nhận mật khẩu mới',
                               hintStyle: TextStyle(fontSize: 15.0),
-                              contentPadding: EdgeInsets.only(top: 5,left: 10),
+                              contentPadding: EdgeInsets.only(top: 5, left: 10),
                             ))),
                       ),
                     ],
@@ -190,9 +195,21 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () async {
+                    String password;
                     if (_key.currentState.validate()) {
                       // No any error in validation
                       _key.currentState.save();
+                      FirebaseUser user =
+                          await FirebaseAuth.instance.currentUser();
+                      user.updatePassword(confirmPassword.text).then((_) {
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text("Successfully"),
+                              ));
+                        print("Succesfull changed password");
+                      }).catchError((error) {
+                        print("Password can't be changed" + error.toString());
+                      });
+                     
                     }
                   },
                   child: Container(
